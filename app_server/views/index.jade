@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.notice-page
+    .weui_panel.weui_panel_access
+      .weui_panel_hd 现有公告
+      .weui_panel_bd
+        each notice, index in notices
+          .weui_media_box.weui_media_text
+            h4.weui_media_title 公告#{index+1}
+            p.weui_media_desc #{notice}
+      //a.weui_panel_ft(href='javascript:void(0);') 查看更多

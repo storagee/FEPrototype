@@ -1,6 +1,10 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /*padding: 12px;*/
+  font: 14px "PingFang SC", Helvetica, Arial, sans-serif;
+}
+
+.notice-page .notice {
+  margin: 10px 0;
 }
 
 a {

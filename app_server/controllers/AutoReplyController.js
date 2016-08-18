@@ -1,16 +1,29 @@
 var wechat = require('wechat');
+var request = require('request');
+var menuController = require('./MenuController');
+var noticeController = require('./NoticeController');
+require('date-util');
 var config = require('../../config');
 
-/**
- * 等待回复
- *
- * @author lzh
- * @date 2016-07-23 12:29
- */
-
 module.exports.reply = wechat(config.app, wechat.text(function (message, req, res) {
-    console.log(message);
+    // console.log(message);
     var input = (message.Content || '').trim();
+
+    if (input === 'notice') {
+        noticeController.queryNotice(function (notices) {
+            var noticeStr = '';
+            for (var i = 0; i < notices.length; i++) {
+                noticeStr += '公告' + (i + 1) + ': ' + notices[i] + '\n\n';
+            }
+            res.reply(noticeStr);
+        }, req)
+    }
+
+    if (input == 'menu') {
+        menuController.customMenu(function () {
+            res.reply('已更新自定义菜单，如果没有看到变化，请等待5分钟，等待5分钟还无变化，说明你的菜单是最新的');
+        });
+    }
 
     if (input === 'login') {
         res.reply([{
@@ -26,42 +39,62 @@ module.exports.reply = wechat(config.app, wechat.text(function (message, req, re
     //     res.wait('weather');
     // }
 
-    if (input === '大王') {
-        return res.reply("不要叫我大王，要叫我女王大人啊……");
+    if (input === 'now') {
+        return res.reply('现在时间是：' + new Date().format('yyyy-mm-dd HH:MM:ss'));
     }
     if (input.length < 2) {
         return res.reply('内容太少，请多输入一点:)');
     }
 
-    var from = message.FromUserName;
-    var content = '';
-    if (from === 'oPKu7jgOibOA-De4u8J2RuNKpZRw') {
-        content = '主人你好：\n' + content;
+    if (input === 'hello') {
+        var from = message.FromUserName;
+        var content = '';
+        if (from === 'oqBpNv7uHbwRzQ-00vbAaU-ylvuo') {
+            content = 'hello master';
+        } else {
+            content = 'who are you?'
+        }
+        // console.log(content);
+        res.reply(content);
     }
-    if (from === 'oPKu7jpSY1tD1xoyXtECiM3VXzdU') {
-        content = '女王大人:\n' + content;
-    }
-    console.log(content);
-    res.reply(content);
 }).image(function (message, req, res) {
     console.log(message);
-    res.reply('还没想好图片怎么处理啦。');
+    res.reply('pic');
 }).location(function (message, req, res) {
     console.log(message);
-    res.reply('想和我约会吗，不要的啦。');
+    res.reply('location');
 }).voice(function (message, req, res) {
     console.log(message);
-    res.reply('心情不好，不想搭理你。');
+    res.reply('voice');
 }).link(function (message, req, res) {
     console.log(message);
-    res.reply('点连接进来的是吧！');
+    res.reply('link');
 }).event(function (message, req, res) {
-    console.log(message);
     if (message.Event === 'subscribe') {
         // 用户添加时候的消息
-        res.reply('谢谢添加Node.js公共帐号:)\n回复Node.js API相关关键词，将会得到相关描述。如：module, setTimeout等');
+        res.reply('欢迎关注FEPrototype公众号');
     } else if (message.Event === 'unsubscribe') {
         res.reply('Bye!');
+    } else if (message.Event === 'CLICK') {
+        var eventKey = message.EventKey;
+        switch (eventKey) {
+            case 'notice' :
+            {
+                noticeController.queryNotice(function (notices) {
+                    var noticeStr = '';
+                    for (var i = 0; i < notices.length; i++) {
+                        noticeStr += '公告' + (i + 1) + ': ' + notices[i] + '\n\n';
+                    }
+                    res.reply(noticeStr);
+                }, req);
+                break;
+            }
+            case 'praise' :
+            {
+                res.reply('谢谢您的支持!');
+                break;
+            }
+        }
     } else {
         res.reply('暂未支持! Coming soon!');
     }
