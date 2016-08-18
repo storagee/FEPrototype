@@ -80,10 +80,10 @@ app.set('views', path.join(__dirname, 'app_server', 'views'));
 5. 格式为：2016-08-18 17:55:02 INFO NoticeDao.js [sql:SELECT * FROM gdas_notice]
 
 自定义 Logger API   
-`logger.log`  等级默认为 'info'，接收一个字符串或者一个对象，对象会被序列化成对应的格式
-`logger.info` 与 logger.log 的作用是一样的
-`logger.warn` level 为 warn
-`logger.error` level 为 error
+`logger.log`  等级默认为   'info'，接收一个字符串或者一个对象，对象会被序列化成对应的格式   
+`logger.info` 与 logger.log 的作用是一样的   
+`logger.warn` level 为 warn   
+`logger.error` level 为 error   
 
 自定义 log 是在 winston 的基础上写出来的，winston 没有自带 Mysql log，可以自定义，详情请看 [winston 官方文档](https://github.com/winstonjs/winston#adding-custom-transports)。
 关于上面 log 的第 2 点，可以查看：[winston-daily-rotate-file](https://github.com/winstonjs/winston-daily-rotate-file)
