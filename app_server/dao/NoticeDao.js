@@ -1,6 +1,6 @@
 var toUTF8 = require('./ToUTF8');
 var pool = require('./DBConnectPool');
-var logger = require('../../lib/Logger/UDataLogger');
+var logger = require('../../common/Logger/Logger');
 
 
 module.exports.getNoticeList = function (callBack) {

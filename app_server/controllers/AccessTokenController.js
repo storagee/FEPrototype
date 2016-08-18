@@ -1,7 +1,7 @@
 var request = require('request');
 var config = require('../../config');
 var accessTokenDao = require('../dao/AccessTokenDao');
-var logger = require('../../lib/Logger/UDataLogger');
+var logger = require('../../common/Logger/Logger');
 var accessTokenUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' + config.app.appid + '&secret=' + config.app.appsecret;
 var accessToken = '';
 

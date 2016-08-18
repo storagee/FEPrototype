@@ -1,6 +1,6 @@
 var config = require('../../config');
 var noticeDao = require('../dao/NoticeDao');
-var uDataLogger = require('../../lib/Logger/UDataLogger');
+var uDataLogger = require('../../common/Logger/Logger');
 
 var queryNotice = function (callback, req) {
     noticeDao.getNoticeList(function (data) {

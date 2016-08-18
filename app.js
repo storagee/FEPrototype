@@ -2,13 +2,9 @@ var express = require('express');
 var fs = require('fs');
 var path = require('path');
 var favicon = require('serve-favicon');
-var winston = require("./lib/Logger/UDataLogger").winston;
+var winston = require("./common/Logger/Logger").winston;
 
-// winston.log('info', 'Hello distributed log files!');
-// winston.info('Hello again distributed logs');
 
-// winston.level = 'debug';
-// winston.log('debug', 'Now my debug messages are written to console!');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var accessTokenController = require('./app_server/controllers/AccessTokenController');
@@ -32,7 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(require('./lib/Logger/RequestLogger').create(winston));
+app.use(require('./common/Logger/RequestLogger').create(winston));
 app.use('/', routes);
 // app.use('/users', users);
 
